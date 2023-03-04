@@ -1,0 +1,12 @@
+HTTP/1.1 200 OK
+Cache-Control: no-cache
+Connection: close
+Content-Type: text/html
+
+<html><body><h1>Unmapped backend</h1>
+You're probably looking for
+<a href="https://pihole.local/login.php">pihole</a> or
+<a href="https://vaultwarden.local/#/login">vaultwarden</a>.
+</body></html>
+
+

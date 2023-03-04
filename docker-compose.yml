@@ -1,0 +1,45 @@
+version: "3.5"
+services:
+  haproxy:
+    container_name: haproxy
+    image: haproxytech/haproxy-alpine:latest
+    pull_policy: always
+    depends_on:
+      - pihole
+      - vaultwarden
+    ports:
+      - "80:80/tcp"
+      - "443:443/tcp"
+    volumes:
+      - "./haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro"
+      - "./503.http:/usr/local/etc/haproxy/errors/503.http:ro"
+      - "./certificate.pem:/etc/ssl/certs/certificate.pem:ro"
+    restart: unless-stopped
+  pihole:
+    container_name: pihole
+    image: pihole/pihole:latest
+    pull_policy: always
+    ports:
+      - "53:53/tcp"
+      - "53:53/udp"
+    environment:
+      TZ: "Europe/Stockholm"
+      WEBPASSWORD: pihole
+      DNSMASQ_LISTENING: all
+      PIHOLE_BASE: /data
+    volumes:
+      - pihole_data:/data:rw
+      - ./custom.list:/etc/pihole/custom.list:rw
+    restart: unless-stopped
+  vaultwarden:
+    container_name: vaultwarden
+    image: vaultwarden/server:latest
+    pull_policy: always
+    environment:
+      WEBSOCKET_ENABLED: "true"
+    volumes:
+      - vaultwarden_data:/data:rw
+    restart: unless-stopped
+volumes:
+  pihole_data:
+  vaultwarden_data:

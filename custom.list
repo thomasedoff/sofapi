@@ -1,0 +1,4 @@
+# Local DNS Records
+192.168.1.84 raspbian.local
+192.168.1.84 pihole.local
+192.168.1.84 vaultwarden.local
